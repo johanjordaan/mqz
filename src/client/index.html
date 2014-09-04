@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="gameApp">
+  <head>
+    <script src="libs/prelude-browser.js"></script>
+
+
+    <script src="libs/angular/angular.js"></script>
+    <script src="libs/angular/angular-route.js"></script>
+    <script src="libs/angular/angular-resource.js"></script>
+
+    <script src="client.js"></script>
+    <link rel="stylesheet" href="mqz.css">
+  </head>
+  <body>
+    <div ng-view>
+    </div>
+    <hr>
+    <div ng-controller="errorController">
+      <button ng-click="clear()">Clear</button>
+      <ul>
+        <li ng-repeat="error in errors track by $index" >{{error}}</li>
+      </ul>
+    </div>
+  </body>
+</html>

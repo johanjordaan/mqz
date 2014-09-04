@@ -29,6 +29,7 @@ module.exports = (grunt) ->
            'src/client/*.ls'
            'src/client/*.html'
            'src/client/*.less'
+           'src/client/images/*.png'
         tasks: ['deadscript' 'copy:frontEndStatic' 'less:all' 'mochaTest:test']
       testChanges:
         files:
@@ -71,6 +72,10 @@ module.exports = (grunt) ->
            cwd: 'src/client/'
            src: ['*.html']
            dest: 'dist/client/'
+         * expand: true
+           cwd: 'src/client/images'
+           src: ['*.png']
+           dest: 'dist/client/images'
          * expand: true
            cwd: 'src/client/'
            src: ['libs/**']
