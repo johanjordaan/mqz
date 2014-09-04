@@ -1,0 +1,11 @@
+{
+  "name": "rgs",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "angular": "1.2.22",
+    "angular-route": "1.2.22",
+    "angular-resource": "1.2.22",
+    "prelude-ls": "~1.1.1"
+  }
+}
