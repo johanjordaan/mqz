@@ -12,11 +12,26 @@
     <link rel="stylesheet" href="mqz.css">
   </head>
   <body>
+    <div ng-controller="menuController">
+      <div class="left_menu">
+        <div>
+          <img src="images/Home.png" ng-click="navigate('/home')"></img>
+        </div>
+        <div>
+          <img src="images/Stats.png" ng-click="navigate('/stats')"></img>
+        </div>
+        <div>
+          <img src="images/User.png" ng-click="navigate('/user')"></img>
+        </div>
+        <div>
+          <img src="images/Settings.png" ng-click="navigate('/settings')"></img>
+        </div>
+      </div>
+    </div>
     <div ng-view>
     </div>
-    <hr>
     <div ng-controller="errorController">
-      <button ng-click="clear()">Clear</button>
+      <!--button ng-click="clear()">Clear</button-->
       <ul>
         <li ng-repeat="error in errors track by $index" >{{error}}</li>
       </ul>

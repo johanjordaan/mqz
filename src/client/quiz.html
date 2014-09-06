@@ -1,19 +1,13 @@
-<body background="green">
-<div class="left_menu">
-  <div>
-    <img src="images/Home.png"></img>
-  </div>
-  <div>
-    <img src="images/Stats.png"></img>
-  </div>
-  <div>
-    <img src="images/User.png"></img>
-  </div>
-  <div>
-    <img src="images/Settings.png"></img>
+<div class="question" ng-show="showQuestion()">
+<div class="question_image" style="background-image: url('http://mtgimage.com/set/JOU/{{question.question}}-crop.jpg')">
+</div>
+<h1>{{question.question}}</h1>
+<h3 ng-repeat="option in question.options" class="option" ng-click="submitAnswer($index)">{{option}}<h3>
+</div>
+
+<div class="answer" ng-show="showAnswer()" ng-click="next()">
+  <h1>{{question.question}}</h1>
+  <h3 class="result">{{result}}</h3>
+  <div class="answer_image" style="background-image: url('http://mtgimage.com/set/JOU/{{question.question}}.jpg')">
   </div>
 </div>
-<div>
-  <i>Hallo</i>
-</div>
-</body>

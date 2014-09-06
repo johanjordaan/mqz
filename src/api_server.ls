@@ -121,7 +121,7 @@ app.post '/api/v1/questions', (req, res) ->
     | options.length => cb options
     | otherwise =>
       find_with_property sets,total,property,card, (fake) ->
-        option = fake[property]
+        option = fake[property].replace fake.name,'____'
         switch option in options
         | true => find_fake_options sets, total, property, card, number, options, cb
         | otherwise =>
@@ -138,8 +138,8 @@ app.post '/api/v1/questions', (req, res) ->
 
         property = utils.random_pick properties
         find_with_property sets, total, property, {}, (card) ->
-          answer = card[property]
-          find_fake_options sets, total, property, card, 4, [card[property]], (options) ->
+          answer = card[property].replace card.name,'____'
+          find_fake_options sets, total, property, card, 4, [answer], (options) ->
             options  = options |> utils.shuffle
             answer_index = options |> _.find-index (option) -> option == answer
             cb do
