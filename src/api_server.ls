@@ -46,6 +46,11 @@ else
     app
 
 
+app.get '/api/v1/sets/', (req, res) ->
+  db.sets.findItems {}, (err, sets) ->
+    | err? => res.status(500).send err
+    | otherwise => res.status(200).send sets
+
 # Imports a set removing all in the set
 app.post '/api/v1/sets/:set_code', (req, res) ->
   set_code = req.param 'set_code'
@@ -162,6 +167,7 @@ app.post '/api/v1/questions', (req, res) ->
           options: question.options
           property: question.property
           image_name: question.image_name
+          set_code: question.set_code
 
   db.users.findOne { token: token }, (err, user) ->
     | err? => res.status(500).send err

@@ -1,13 +1,15 @@
-<div class="question" ng-show="showQuestion()">
-<div class="question_image" style="background-image: url('http://mtgimage.com/set/JOU/{{question.question}}-crop.jpg')">
-</div>
-<h1>{{question.question}}</h1>
-<h3 ng-repeat="option in question.options" class="option" ng-click="submitAnswer($index)">{{option}}<h3>
-</div>
+<div class="right_content" >
 
-<div class="answer" ng-show="showAnswer()" ng-click="next()">
-  <h1>{{question.question}}</h1>
-  <h3 class="result">{{result}}</h3>
-  <div class="answer_image" style="background-image: url('http://mtgimage.com/set/JOU/{{question.question}}.jpg')">
+  <div class="question" ng-show="showQuestion()">
+    <div class="image" style="background-image: url('http://mtgimage.com/set/{{question.set_code}}/{{question.question}}-crop.jpg')"></div>
+    <h1>{{question.question}}</h1>
+    <h3 ng-repeat="option in question.options" class="option" ng-click="submitAnswer($index)">{{option}}<h3>
   </div>
+
+  <div class="answer" ng-show="showAnswer()" ng-click="next()">
+    <h1>{{question.question}}</h1>
+    <h3 class="result">{{result}}</h3>
+    <div class="image" style="background-image: url('http://mtgimage.com/set/{{question.set_code}}/{{question.question}}.jpg')"></div>
+  </div>
+
 </div>

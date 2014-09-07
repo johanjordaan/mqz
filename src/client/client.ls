@@ -1,3 +1,5 @@
+_  = require 'prelude-ls'
+
 errorController = ($scope,Errors) ->
   $scope.errors = Errors
 
@@ -11,16 +13,21 @@ menuController = ($scope,$location) ->
   $scope.isSelected = (destination) ->
 
 quizController = ($scope,Api,State) ->
+  $scope.State = State
+
   $scope.question = do
     question:"???"
 
   $scope.answer = false
 
   if !State.CurrentQuestion?
-    Api.getQuestion { token:"johan",sets:["JOU"] }, (data) ->
+    sets = State.selectedSets |> _.obj-to-pairs
+    sets = sets |> _.filter (l) -> l[1]
+    sets = sets |> _.map (item) -> item[0]
+    Api.getQuestion { token:"johan",sets:sets }, (data) ->
       $scope.question = data
       State.CurrentQuestion = data
-      $scope.image = "background-image: url(http://mtgimage.com/set/JOU/#{data.question}-crop.jpg);"
+      $scope.image = "background-image: url(http://mtgimage.com/set/#{data.set_code}/#{data.question}-crop.jpg);"
   else
     $scope.question = State.CurrentQuestion
 
@@ -40,10 +47,13 @@ quizController = ($scope,Api,State) ->
         $scope.answer = true
 
   $scope.next = ->
-    Api.getQuestion { token:"johan",sets:["JOU"] }, (data) ->
+    sets = State.selectedSets |> _.obj-to-pairs
+    sets = sets |> _.filter (l) -> l[1]
+    sets = sets |> _.map (item) -> item[0]
+    Api.getQuestion { token:"johan",sets:sets }, (data) ->
       $scope.question = data
       State.CurrentQuestion = data
-      $scope.image = "background-image: url(http://mtgimage.com/set/JOU/#{data.question}-crop.jpg);"
+      $scope.image = "background-image: url(http://mtgimage.com/set/#{data.set_code}/#{data.question}-crop.jpg);"
       $scope.answer = false
 
   $scope.showAnswer = ->
@@ -53,17 +63,30 @@ quizController = ($scope,Api,State) ->
     !$scope.answer
 
 
+settingsController = ($scope,Api,State) ->
+  $scope.state = State
+
+  switch State.sets?
+  | true =>
+  | otherwise =>
+    Api.getSets (data) ->
+      State.sets = data
 
 
-settingsController = ($scope,Api) ->
 
-statsController = ($scope,Api) ->
 
-userController = ($scope,Api) ->
+statsController = ($scope,Api,State) ->
+
+userController = ($scope,Api,State) ->
 
 
 apiFactory = ($resource,ErrorHandler) ->
   do
+    getSets: (cb) ->
+      $resource '/api/v1/sets', null
+      .query {}, {}, cb, ErrorHandler
+
+
     getQuestion: (data, cb) ->
       $resource '/api/v1/questions', null
       .save {}, data, cb, ErrorHandler
@@ -103,15 +126,17 @@ app = angular.module 'gameApp',['ngResource','ngRoute']
 app.factory 'Api',['$resource','ErrorHandler',apiFactory]
 app.factory 'ErrorHandler',['Errors',errorHandlerFactory]
 app.value 'Errors',[]
-app.value 'State',{}
+app.value 'State', do
+  selectedSets:
+    JOU: true
 
 app.controller 'errorController', ['$scope','Errors',errorController]
 app.controller 'menuController', ['$scope','$location',menuController]
 
 app.controller 'quizController', ['$scope','Api','State',quizController]
-app.controller 'settingsController', ['$scope','Api',settingsController]
-app.controller 'statsController', ['$scope','Api',statsController]
-app.controller 'userController', ['$scope','Api',userController]
+app.controller 'settingsController', ['$scope','Api','State',settingsController]
+app.controller 'statsController', ['$scope','Api','State',statsController]
+app.controller 'userController', ['$scope','Api','State',userController]
 
 
 app.config ['$routeProvider',config]

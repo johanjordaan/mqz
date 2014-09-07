@@ -1,1 +1,5 @@
 <i>settings</i>
+<div ng-repeat="set in state.sets">
+  <input type="checkbox" ng-model="state.selectedSets[set.code]">
+  <i>{{set.name}},{{set.code}}</i>
+</div>
